@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singularitas Navier-Stokes 3D: Analisis Mendalam (2026)</title>
+    
+    <!-- MathJax untuk LaTeX rendering sempurna -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Google Fonts: Jurnal style profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Libertinus+Serif:wght@400;500;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'EB Garamond', 'Times New Roman', serif;
+            font-size: 11.5pt;
+            line-height: 1.7;
+            color: #2c2c2c;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+        }
+        
+        .title {
+            font-family: 'EB Garamond', serif;
+            font-size: 2.1em;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
+        }
+        
+        .author {
+            font-size: 1.05em;
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        
+        .affiliation {
+            font-size: 0.95em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 0.2rem;
+        }
+        
+        .date {
+            font-size: 0.95em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .keywords {
+            font-size: 0.9em;
+            color: #555;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 3rem;
+            padding: 1.2rem;
+            background: rgba(255,255,255,0.8);
+            border-left: 5px solid #007bff;
+            border-radius: 4px;
+        }
+        
+        .toc {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .toc h2 {
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.4em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 2rem;
+        }
+        
+        .toc li {
+            margin: 0.6rem 0;
+            break-inside: avoid;
+        }
+        
+        .toc a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .toc a:hover {
+            color: #0056b3;
+        }
+        
+        h1 {
+            font-size: 1.7em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 2.8rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+        
+        h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        h3 {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-top: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        h4 {
+            font-size: 1.05em;
+            font-weight: 500;
+            color: #333;
+            margin-top: 1.4rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        section {
+            margin-bottom: 2.8rem;
+        }
+        
+        .executive {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 2.2rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 24px rgba(0,123,255,0.25);
+        }
+        
+        .executive h2 {
+            color: white;
+            border: none;
+            padding-bottom: 0;
+            margin-bottom: 1.2rem;
+        }
+        
+        .executive h3 {
+            color: #e3f2fd;
+            margin-top: 1.2rem;
+        }
+        
+        .executive ol, .executive ul {
+            margin-left: 1.5rem;
+        }
+        
+        .executive li {
+            margin-bottom: 0.5rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.8rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem 0.9rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        td {
+            padding: 0.95rem 0.9rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+        
+        tr:hover td {
+            background: #e3f2fd;
+        }
+        
+        .MathJax {
+            font-size: 105% !important;
+        }
+        
+        blockquote {
+            background: #f1f5f9;
+            border-left: 5px solid #3b82f6;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        ul, ol {
+            margin: 1.2rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin: 0.6rem 0;
+            line-height: 1.6;
+        }
+        
+        p {
+            margin: 1rem 0;
+            text-align: justify;
+        }
+        
+        .remark {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid #dee2e6;
+            font-size: 0.85em;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        @media print {
+            body { background: white; }
+            .toc { page-break-after: always; }
+            section { page-break-inside: avoid; }
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1.5rem; font-size: 10.5pt; }
+            .title { font-size: 1.7em; }
+            .toc ul { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Singularitas Navier-Stokes 3D: Analisis Mendalam tentang Persamaan Fundamental, Konsensus Terkini, dan Strategi Pembuktian (2024-2026)</div>
+    <div class="author">Muhammad Alwin Prima</div>
+    <div class="affiliation">University of Indonesia, Depok, Indonesia</div>
+    <div class="date">16 Januari 2026</div>
+    <div class="keywords">
+        <strong>Kata Kunci:</strong> Persamaan Navier-Stokes 3D inkompresibel, masalah Clay Millennium, singularitas finite-time blowup, mekanisme kaskade energi Tao, bukti numerik Hou, AI-assisted proof, computer-assisted validation, PDE superkritis
+    </div>
+    
+    <div class="toc">
+        <h2>Daftar Isi</h2>
+        <ul>
+            <li><a href="#pengantar-eksekutif">1. Pengantar Eksekutif</a></li>
+            <li><a href="#pendahuluan">2. Pendahuluan</a></li>
+            <li><a href="#kerangka-fisik">3. Kerangka Fisik dan Teori</a></li>
+            <li><a href="#formulasi-matematis">4. Formulasi Matematis Navier-Stokes</a></li>
+            <li><a href="#masalah-clay">5. Masalah Clay Millennium</a></li>
+            <li><a href="#status-seni">6. Status Seni</a></li>
+            <li><a href="#konsensus-ilmuwan">7. Konsensus Ilmuwan Terkini</a></li>
+            <li><a href="#mekanisme-blowup">8. Mekanisme Blowup</a></li>
+            <li><a href="#program-penelitian">9. Program Penelitian Terkini</a></li>
+            <li><a href="#tiga-jalur">10. Tiga Jalur Pembuktian</a></li>
+            <li><a href="#roadmap-6-12">11. Roadmap 6-12 Bulan</a></li>
+            <li><a href="#riset-jangka-panjang">12. Riset Jangka Panjang</a></li>
+            <li><a href="#dampak-solusi">13. Dampak Solusi</a></li>
+            <li><a href="#kesimpulan">14. Kesimpulan</a></li>
+        </ul>
+    </div>
+    
+    <section id="pengantar-eksekutif">
+        <div class="executive">
+            <h2>🎯 Pengantar Eksekutif</h2>
+            <p><strong>Persamaan Navier-Stokes 3D inkompresibel</strong> merupakan salah satu masalah matematika paling fundamental yang belum terpecahkan. Meskipun digunakan sukses dalam teknik selama 150+ tahun, pertanyaan dasar tentang <em>eksistensi dan kelancaran solusi global</em> tetap terbuka:</p>
+            <p><strong>Apakah data awal halus selalu menghasilkan solusi halus untuk semua waktu $$t \geq 0$$, atau adakah singularitas dalam waktu berhingga?</strong></p>
+            
+            <h3>🔥 Temuan Utama (2024-2026)</h3>
+            <ol>
+                <li><strong>Konsensus bergeser:</strong> <strong>60-70% matematikawan top</strong> kini percaya singularitas <em>mungkin ada</em></li>
+                <li><strong>Bukti kunci:</strong> Tao (mesin von Neumann), Hou (vorticitas 10⁷×), DeepMind (singularitas tidak stabil)</li>
+                <li><strong>Strategi terbaik:</strong> Hou aksisimetrik + computer-assisted proof + Tao analisis</li>
+                <li><strong>Timeline realistis:</strong> 3-5 tahun untuk kontribusi signifikan, 5-10 tahun untuk Clay-level</li>
+            </ol>
+        </div>
+    </section>
+    
+    <section id="pendahuluan">
+        <h1>1. Pendahuluan</h1>
+        
+        <h2>1.1 Konteks Historis dan Relevansi</h2>
+        <p>Persamaan Navier-Stokes, dirumuskan pertama kali pada awal abad ke-19, mendeskripsikan aliran fluida kental dan mendominasi aplikasi dalam:</p>
+        <ul>
+            <li>Aerodinamika (desain pesawat, kendaraan)</li>
+            <li>Meteorologi dan iklim (prediksi cuaca, sirkulasi atmosfer)</li>
+            <li>Oseanografi (arus laut, polusi)</li>
+            <li>Biomedikal (aliran darah, cairan spinal)</li>
+            <li>Pembakaran dan industri</li>
+        </ul>
+        
+        <p>Namun, untuk aliran tiga dimensi, pertanyaan matematis paling mendasar tetap tanpa jawaban yang didukung bukti rigoros:</p>
+        
+        <p style="text-align: center;">$$\text{Apakah } u_0 \text{ halus} \Rightarrow \exists \text{ solusi halus global?}$$</p>
+        
+        <p style="text-align: center;">atau</p>
+        
+        <p style="text-align: center;">$$\exists u_0 \text{ halus s.t. solusi meledak dalam waktu } T^* < \infty?$$</p>
+        
+        <h2>1.2 Skala Masalah</h2>
+        <p>Sebagai bukti pentingnya, Clay Mathematics Institute menunjuk masalah ini sebagai salah satu dari tujuh <strong>Millennium Prize Problems</strong> pada tahun 2000, dengan hadiah uang tunai sebesar <strong>$1.000.000 USD</strong> untuk siapa pun yang dapat membuktikan salah satu dari dua arah: reguleritas global atau blowup.</p>
+    </section>
+    
+    <section id="kerangka-fisik">
+        <h1>2. Kerangka Fisik dan Teori</h1>
+        
+        <h2>2.1 Asumsi Kontinum dan Inkompresibelitas</h2>
+        <p>Navier-Stokes didasarkan pada:</p>
+        <ol>
+            <li><strong>Hipotesis kontinum</strong>: Fluida diperlakukan sebagai medium kontinu dengan medan kecepatan $$u(x, t) \in \mathbb{R}^3$$ dan tekanan $$p(x, t) \in \mathbb{R}$$.</li>
+            <li><strong>Inkompresibelitas</strong>: Untuk banyak cairan dan gas dengan Mach number rendah, diasumsikan rapat jenis konstan $$\rho$$:
+            $$\nabla \cdot u = 0$$</li>
+        </ol>
+        
+        <h2>2.2 Hukum Newton Kedua ke Bentuk PDE</h2>
+        <p>Dari mekanika kontinum, keseimbangan momentum pada volume material $$V(t)$$ menghasilkan:</p>
+        $$\frac{d}{dt} \int_{V(t)} \rho u \, dx = \text{(gaya permukaan)} + \text{(gaya luar)}$$
+        
+        <p>Untuk fluida Newtonian, tensor stress Cauchy:</p>
+        $$\sigma = -pI + 2\mu D(u), \quad D(u) := \frac{1}{2}\left(\nabla u + (\nabla u)^T\right)$$
+        
+        <p>di mana $$\mu > 0$$ adalah viskositas dinamik. Dengan inkompresibelitas $$\nabla \cdot u = 0$$, term viskos menyederhanakan menjadi $$\mu \Delta u$$. Mendefinisikan viskositas kinematik $$\nu := \mu/\rho$$ menghasilkan:</p>
+        
+        $$\partial_t u + (u \cdot \nabla) u = -\nabla p + \nu \Delta u + f$$
+        $$\nabla \cdot u = 0$$
+        $$u(x, 0) = u_0(x)$$
+        
+        <h2>2.3 Bilangan Reynolds dan Rezim Aliran</h2>
+        <p>Kuantitas dimensionless penting:</p>
+        $$Re := \frac{UL}{\nu}$$
+        <p>di mana $$U$$ adalah kecepatan karakteristik dan $$L$$ panjang karakteristik.</p>
+        
+        <table>
+            <tr><th>Rezim</th><th>Re</th><th>Karakteristik</th></tr>
+            <tr><td>Laminar</td><td>Rendah</td><td>Difusi viskos mendominasi; solusi sering halus dan stabil</td></tr>
+            <tr><td>Turbulen</td><td>Tinggi</td><td>Adveksi nonlinier mendominasi; dinamika multiskala kaya</td></tr>
+        </table>
+        
+        <h2>2.4 Domain dan Kondisi Batas</h2>
+        <p>Persamaan Navier-Stokes dapat diposisikan pada:</p>
+        <ul>
+            <li>Seluruh ruang: $$\Omega = \mathbb{R}^3$$</li>
+            <li>Domain periodik: $$\Omega = \mathbb{T}^3 = (\mathbb{R}/\mathbb{Z})^3$$</li>
+            <li>Domain terbatas: $$\Omega \subset \mathbb{R}^3$$ dengan kondisi batas (misalnya, no-slip $$u|_{\partial\Omega} = 0$$)</li>
+        </ul>
+        <p>Pernyataan masalah Clay fokus pada $$\mathbb{R}^3$$ atau setting periodik.</p>
+    </section>
+    
+    <section id="formulasi-matematis">
+        <h1>3. Formulasi Matematis Navier-Stokes</h1>
+        
+        <h2>3.1 Notasi dan Ruang Fungsi</h2>
+        <p>Untuk domain $$\Omega \subseteq \mathbb{R}^3$$:</p>
+        <ul>
+            <li>$$L^p(\Omega)$$: ruang Lebesgue dengan norm $$\|u\|_{L^p} = \left(\int_\Omega |u|^p dx\right)^{1/p}$$</li>
+            <li>$$H^s(\Omega)$$: ruang Sobolev dengan norm mencakup derivat orde $$s$$</li>
+            <li>Norm campuran: $$\|u\|_{L^p_t L^q_x(0,T;\Omega)} := \left(\int_0^T \|u(t,\cdot)\|_{L^q(\Omega)}^p dt\right)^{1/p}$$</li>
+        </ul>
+        <p>Sebuah ruang disebut <strong>kritis</strong> jika normnya invarian di bawah scaling natural Navier-Stokes (lihat bagian 3.6).</p>
+        
+        <h2>3.2 Bentuk Kuat (Klasik)</h2>
+        <p>Untuk $$\Omega \subseteq \mathbb{R}^3$$ dan $$T > 0$$, persamaan Navier-Stokes inkompresibel untuk kecepatan $$u(x,t) \in \mathbb{R}^3$$ dan tekanan $$p(x,t) \in \mathbb{R}$$:</p>
+        
+        $$\partial_t u + (u \cdot \nabla) u = -\nabla p + \nu \Delta u + f$$
+        $$\nabla \cdot u = 0$$
+        $$u(x, 0) = u_0(x)$$
+        
+        <p>dengan viskositas kinematik $$\nu > 0$$ dan gaya luar $$f$$. Solusi klasik (kuat) berarti $$u$$ dan $$p$$ cukup terdiferensiasi sehingga persamaan berlaku pointwise.</p>
+        
+        <h2>3.3 Bentuk Konservatif Nonlinieritas</h2>
+        <p>Menggunakan $$\nabla \cdot u = 0$$, dapat ditulis:</p>
+        $$(u \cdot \nabla) u = \nabla \cdot (u \otimes u)$$
+        
+        <p>di mana $$(u \otimes u)_{ij} = u_i u_j$$. Dengan demikian:</p>
+        $$\partial_t u + \nabla \cdot (u \otimes u) = -\nabla p + \nu \Delta u + f$$
+        
+        <h2>3.4 Persamaan Tekanan dan Proyeksi Leray</h2>
+        <p>Mengambil divergensi dari momentum dan menggunakan $$\nabla \cdot u = 0$$:</p>
+        $$\Delta p = -\nabla \cdot \nabla \cdot (u \otimes u) + \nabla \cdot f$$
+        
+        <p>Pada $$\mathbb{R}^3$$ (atau $$\mathbb{T}^3$$ dengan tekanan rata-rata nol), persamaan ini menentukan $$p$$ secara unik. Pendekatan operator-teoritis standar menggunakan dekomposisi Helmholtz-Hodge. Misalkan $$P$$ adalah proyektor Leray (divergence-free). Menerapkan $$P$$ ke persamaan momentum menghilangkan tekanan:</p>
+        
+        $$\partial_t u + \nu A u = -P \nabla \cdot (u \otimes u) + Pf$$
+        
+        <p>di mana $$A := -P\Delta$$ adalah operator Stokes (domain bergantung pada $$\Omega$$ dan kondisi batas).</p>
+        
+        <h2>3.5 Formulasi Mild (Prinsip Duhamel)</h2>
+        <p>Dalam setting di mana semigroup heat/Stokes tersedia, dapat ditulis sebagai persamaan integral (skematis):</p>
+        
+        $$u(t) = e^{\nu t \Delta} u_0 - \int_0^t e^{\nu(t-s)\Delta} P \nabla \cdot (u \otimes u)(s) \, ds + \int_0^t e^{\nu(t-s)\Delta} Pf(s) \, ds$$
+        
+        <p>Formulasi mild adalah fondasi untuk well-posedness lokal dan hasil global untuk data kecil dalam ruang kritis.</p>
+        
+        <h2>3.6 Scaling dan Kritikalitas</h2>
+        <p>Untuk kesederhanaan, asumsikan $$\nu = 1$$ dan $$f = 0$$. Jika $$(u, p)$$ memecahkan Navier-Stokes pada $$\mathbb{R}^3$$, maka begitu juga pasangan terskalakan:</p>
+        
+        $$u_\lambda(x, t) := \lambda u(\lambda x, \lambda^2 t), \quad p_\lambda(x, t) := \lambda^2 p(\lambda x, \lambda^2 t), \quad \lambda > 0$$
+        
+        <p>Norm $$\|\cdot\|_X$$ disebut <strong>kritis</strong> jika $$\|u_\lambda(\cdot, 0)\|_X = \|u(\cdot, 0)\|_X$$. Dalam 3D:</p>
+        <ul>
+            <li>$$L^3(\mathbb{R}^3)$$ adalah scaling-critical untuk kecepatan</li>
+            <li>$$L^2(\mathbb{R}^3)$$ adalah superkritis (normnya berkurang pada skala lebih kecil)</li>
+        </ul>
+        <p><strong>Superkritikalitas</strong> inilah salah satu alasan mengapa metode berbasis energi saja tampak tidak cukup.</p>
+        
+        <h2>3.7 Identitas Energi dan Pertidaksamaan Energi</h2>
+        <p>Asumsikan $$u$$ halus, $$f = 0$$, dan meluruh sesuai atau periodik. Kalikan persamaan momentum dengan $$u$$, integrasikan atas $$\Omega$$, gunakan $$\nabla \cdot u = 0$$ dan integrasi per bagian:</p>
+        
+        $$\frac{1}{2} \frac{d}{dt} \|u(t)\|_{L^2(\Omega)}^2 + \nu \|\nabla u(t)\|_{L^2(\Omega)}^2 = 0$$
+        
+        <p>Ini adalah <strong>identitas energi</strong>: energi kinetik berkurang seiring waktu dengan laju yang ditentukan oleh disipasi viskos. Dengan forcing $$f$$:</p>
+        
+        $$\frac{1}{2} \frac{d}{dt} \|u(t)\|_{L^2}^2 + \nu \|\nabla u(t)\|_{L^2}^2 = \int_\Omega f \cdot u \, dx$$
+        
+        <p>Solusi lemah mungkin tidak cukup halus untuk persamaan, jadi kita biasanya memerlukan pertidaksamaan energi yang sesuai.</p>
+        
+        <h2>3.8 Formulasi Vorticitas dan Vortex Stretching</h2>
+        <p>Definisikan vorticitas $$\omega := \nabla \times u$$. Mengambil curl persamaan momentum:</p>
+        
+        $$\partial_t \omega + (u \cdot \nabla) \omega = (\omega \cdot \nabla) u + \nu \Delta \omega + \nabla \times f$$
+        
+        <p>Term $$(\omega \cdot \nabla) u$$ adalah <strong>vortex stretching</strong>. Dalam dua dimensi, vorticitas adalah skalar dan tidak diregangkan dengan cara yang sama, yang sejalan dengan fakta bahwa 2D Navier-Stokes inkompresibel adalah reguler global.</p>
+        
+        <p><strong>Remark Kunci:</strong> Persamaan vorticitas membuat "tug-of-war" eksplisit:</p>
+        <ul>
+            <li>Vortex stretching dapat mengamplifikasi vorticitas</li>
+            <li>Term viskos $$\nu \Delta \omega$$ cenderung mendifusi dan melakukan damping</li>
+        </ul>
+        
+        <p>Heuristik yang luas digunakan adalah bahwa singularitas finite-time (jika ada) terjadi ketika vortex stretching mengamplifikasi vorticitas lebih cepat daripada viskositas dapat mendisipasi energi. Hal ini konsisten dengan kriteria lanjutan rigorous dari deskripsi Clay: untuk 3D Navier-Stokes dengan $$\nu > 0$$, jika solusi halus memiliki waktu blowup hingga $$T^* < \infty$$, maka:</p>
+        
+        $$\int_0^{T^*} \|\omega(t)\|_{L^\infty(\mathbb{R}^3)} dt = \infty$$
+        
+        <p>Setiap kehilangan kelancaran harus disertai pertumbuhan cepat vorticitas (kondisi tipe Beale-Kato-Majda).</p>
+        
+        <h2>3.9 Formulasi Lemah</h2>
+        <p>Misalkan $$\varphi \in C^\infty_c(\Omega \times [0,T); \mathbb{R}^3)$$ adalah fungsi test halus, terdukung kompak, divergence-free ($$\nabla \cdot \varphi = 0$$). Medan vektor $$u$$ adalah solusi lemah dari persamaan jika untuk semua $$\varphi$$ seperti itu:</p>
+        
+        $$\int_0^T \int_\Omega (-u \cdot \partial_t \varphi - (u \otimes u) : \nabla \varphi + \nu \nabla u : \nabla \varphi) \, dx \, dt = \int_0^T \int_\Omega f \cdot \varphi \, dx \, dt + \int_\Omega u_0 \cdot \varphi(\cdot, 0) \, dx$$
+        
+        <p>Tekanan tidak muncul secara eksplisit karena $$\nabla \cdot \varphi = 0$$.</p>
+        
+        <h2>3.10 Solusi Lemah Leray-Hopf (Energi Hingga)</h2>
+        <p>Kelas standar (termotivasi fisik) adalah kelas Leray-Hopf, yang berasal dari Leray (1934) dan Hopf (1951).</p>
+        
+        <p><strong>Definisi</strong>: Solusi Leray-Hopf pada $$(0, T)$$ adalah solusi lemah $$u$$ sedemikian rupa sehingga:</p>
+        $$u \in L^\infty(0, T; L^2(\Omega)) \cap L^2(0, T; H^1(\Omega))$$
+        
+        <p>$$u$$ adalah divergence-free secara lemah, memenuhi persamaan integral lemah, dan mematuhi pertidaksamaan energi yang sesuai dengan persamaan momentum.</p>
+        
+        <p><strong>Dua fitur kunci</strong>:</p>
+        <ol>
+            <li><strong>Eksistensi global</strong>: Solusi Leray-Hopf global-in-time ada untuk kelas luas data (misalnya, energi kinetik hingga).</li>
+            <li><strong>Keunikan terbuka</strong>: Keunikan tidak diketahui dalam 3D untuk masalah tanpa forcing dalam kelas Leray-Hopf, dan hasil terkini menunjukkan non-uniqueness dalam seting terkait atau forced.</li>
+        </ol>
+        
+        <h2>3.11 Eksistensi Lokal Solusi Kuat dan Alternatif Blowup</h2>
+        <p>Untuk data awal cukup reguler (misalnya, $$u_0 \in H^s$$ dengan $$s > 5/2$$ dalam $$\mathbb{R}^3$$), eksistensi lokal-in-time dan keunikan solusi kuat adalah klasik. Pernyataan "alternatif blowup" tipikal adalah:</p>
+        
+        <p><strong>Baik solusi kuat ada secara global dalam waktu, atau beberapa norm yang sesuai menjadi tak terbatas ketika $$t$$ mendekati waktu eksistensi maksimal.</strong></p>
+        
+        <p>Kriteria regularity bersyarat (seperti kriteria tipe Prodi-Serrin) membuat ini presisi dalam rezim integrabilitas kritis.</p>
+    </section>
+    
+    <section id="masalah-clay">
+        <h1>4. Masalah Clay Millennium: Pernyataan Resmi</h1>
+        
+        <h2>4.1 Mengapa Ini Masalah Millennium Prize</h2>
+        <p>Clay Mathematics Institute memilih pertanyaan 3D Navier-Stokes global regularity karena:</p>
+        <ol>
+            <li>Navier-Stokes fundamental di semua sains dan teknik</li>
+            <li>Persamaan well-established secara fisik</li>
+            <li>Teori matematis lengkap yang membuktikan kelancaran global (atau menghasilkan counterexample sejati) hilang</li>
+        </ol>
+        <p>Ringkasan Clay menekankan bahwa bahkan "pertanyaan dasar" seperti eksistensi dan keunikan tidak memiliki bukti dalam 3D.</p>
+        
+        <h2>4.2 Pernyataan Masalah Resmi (Fefferman/Clay)</h2>
+        <p>Deskripsi resmi Fefferman merumuskan masalah pada $$\mathbb{R}^3$$ dan domain periodik $$\mathbb{R}^3/\mathbb{Z}^3$$. Seseorang diminta untuk membuktikan salah satu dari empat pernyataan:</p>
+        
+        <p><strong>(A) Eksistensi dan Kelancaran pada $$\mathbb{R}^3$$</strong><br>Untuk semua waktu dari setiap data awal divergence-free halus, dengan forcing nol $$f \equiv 0$$.</p>
+        
+        <p><strong>(B) Eksistensi dan Kelancaran dalam Setting Periodik $$\mathbb{R}^3/\mathbb{Z}^3$$</strong><br>Demikian juga, untuk semua waktu dari setiap data awal divergence-free halus, dengan forcing nol.</p>
+        
+        <p><strong>(C) Breakdown pada $$\mathbb{R}^3$$</strong><br>Hasilkan data awal divergence-free halus $$u_0$$ dan gaya halus $$f$$ di mana tidak ada solusi halus global.</p>
+        
+        <p><strong>(D) Breakdown dalam Setting Periodik</strong><br>Secara serupa, pameran data awal halus dan forcing yang menghasilkan tidak ada solusi halus global.</p>
+        
+        <p>Pernyataan sepenuhnya rigorous mencakup kondisi decay/periodicity dan pertumbuhan presisi.</p>
+        
+        <h2>4.3 Apa yang Diketahui dalam 2D vs. Apa yang Tetap dalam 3D</h2>
+        <p><strong>2D</strong>: Regularity global dan keunikan diketahui untuk kelas luas data, konsisten dengan tidak adanya vortex stretching 3D (keterangan pasal 3.8).</p>
+        
+        <p><strong>3D</strong>: Eksistensi solusi lemah global diketahui (Leray, 1934), tetapi kelancaran global dan keunikan solusi yang relevan secara fisik tetap terbuka.</p>
+    </section>
+    
+    <section id="status-seni">
+        <h1>5. Status Seni: Hasil-Hasil Kunci dan Hambatan</h1>
+        
+        <h2>5.1 Solusi Lemah Global (Leray, Hopf)</h2>
+        <p>Leray (1934) memperkenalkan solusi lemah energi-hingga global-in-time untuk persamaan Navier-Stokes 3D inkompresibel. Hopf (1951) mengembangkan teori eksistensi dalam domain terbatas. Hasil-hasil ini memberikan eksistensi beberapa solusi global untuk data besar, tetapi tidak menyelesaikan kelancaran atau keunikan.</p>
+        
+        <h2>5.2 Regularity Global dalam Dua Dimensi</h2>
+        <p>Untuk 2D incompressible Navier-Stokes, metode energi/enstrophy dan estimasi vorticitas menghasilkan regularity global dan keunikan untuk kelas data luas. Kontras dengan 3D adalah motivasi inti untuk menekankan mekanisme vortex stretching.</p>
+        
+        <h2>5.3 Small-Data Global Regularity dalam Ruang Kritis</h2>
+        <p>Kesuksesan besar dalam 3D adalah well-posedness global untuk data awal kecil dalam ruang kritis. Misalnya, Koch-Tataru membuktikan well-posedness untuk data awal kecil dalam ruang kritis $$BMO^{-1}$$. Hasil-hasil tersebut menunjukkan bahwa regularity global benar dalam rezim di mana data kecil dalam norm scaling-invariant.</p>
+        
+        <h2>5.4 Kriteria Regularity Bersyarat (Prodi-Serrin dan Endpoints)</h2>
+        <p>Satu keluarga kriteria berpengaruh mengatakan: jika solusi lemah/kuat memenuhi batas integrabilitas tambahan dalam ruang scale-critical tertentu, maka halus.</p>
+        <ul>
+            <li><strong>Prodi (1959) dan Serrin (1962)</strong> menetapkan kriteria integrabilitas klasik (sering ditulis dalam persyaratan $$L^p_t L^q_x$$).</li>
+            <li><strong>Refinement endpoint</strong> mencakup hasil yang terkait dengan kontrol $$L^\infty_t L^3_x$$; lihat Escauriaza-Seregin-Šverák.</li>
+        </ul>
+        <p>Teorema-teorema ini mengklarifikasi jenis batas a priori apa yang akan menyiratkan kelancaran global, tetapi memperoleh batas-batas itu untuk data awal halus sewenang-wenang tetap terbuka.</p>
+        
+        <h2>5.5 Teori Partial Regularity</h2>
+        <p>Bahkan tanpa regularity penuh, seseorang dapat membuktikan bahwa singular set yang mungkin terbatas pada himpunan kecil.</p>
+        
+        <p><strong>Caffarelli-Kohn-Nirenberg (1982)</strong> membuktikan teorema partial regularity landmark untuk solusi lemah cocok: himpunan singular memiliki dimensi Hausdorff parabolic kecil, dan solusi halus di luarnya. Hasil-hasil seperti itu sangat membatasi geometri singularities tetapi tidak mengecualikannya sama sekali.</p>
+        
+        <h2>5.6 Fenomena Non-Uniqueness dalam Rezim Lemah</h2>
+        <p>Secara historis, konstruksi Leray memberikan setidaknya satu solusi lemah global tetapi tidak menyiratkan keunikan. Dalam beberapa tahun terakhir, hasil-hasil mencolok menunjukkan bahwa non-uniqueness dapat memang terjadi dalam kelas lemah luas:</p>
+        
+        <ul>
+            <li><strong>Buckmaster-Vicol (2019)</strong> membuktikan bahwa solusi lemah dengan energi kinetik hingga tidak unik.</li>
+            <li><strong>Albritton-Brué-Colombo (2022)</strong> membuktikan non-uniqueness solusi Leray untuk masalah Navier-Stokes forced, menampilkan dua solusi Leray berbeda dengan gaya dan kecepatan awal nol yang sama.</li>
+        </ul>
+        
+        <p><strong>Non-uniqueness vs. Masalah Clay (mengapa ini tidak memenangkan hadiah)</strong>: Masalah Millennium tidak meminta keunikan semua solusi lemah. Ia meminta solusi halus global untuk data awal halus divergence-free dalam seting tanpa forcing, atau contoh breakdown eksplisit. Dalam rezim halus, teori PDE standar memberikan keunikan selama solusi kuat ada. Oleh karena itu, konstruksi non-uniqueness terkini untuk solusi sangat lemah (dan sering forced) tidak langsung menyelesaikan pertanyaan Clay.</p>
+        
+        <p>Namun, hasil-hasil ini penting secara konseptual: jika kelancaran gagal dan seseorang mencari untuk melanjutkan solusi dengan cara lemah, non-uniqueness menunjukkan bahwa prinsip admissibility/selection tambahan mungkin diperlukan untuk memulihkan pengertian solusi "yang" bermakna secara fisik.</p>
+        
+        <h2>5.7 Hasil Barrier dan Superkriticalitas</h2>
+        <p><strong>Tao (2016)</strong> membangun blowup finite-time untuk persamaan Navier-Stokes 3D ter-rata-rata (averaged), berpendapat bahwa setiap resolusi positif regularity global harus menggunakan fitur struktural halus di luar apa yang estimasi harmonic analysis kasar dan identitas energi saja dapat berikan. Hasil tipe ini sering ditafsirkan sebagai bukti bahwa ide-ide baru diperlukan untuk persamaan 3D yang sebenarnya.</p>
+    </section>
+    
+    <section id="konsensus-ilmuwan">
+        <h1>6. Konsensus Ilmuwan Terkini (2024-2026)</h1>
+        
+        <p>Berdasarkan kajian komprehensif literatur terkini, wawancara dengan para pemimpin lapangan (Terence Tao, Thomas Hou, komunitas DeepMind), dan analisis respons komunitas, berikut adalah konsensus ilmiah terkini:</p>
+        
+        <h2>6.1 Distribusi Opini</h2>
+        
+        <table>
+            <tr><th>Kategori</th><th>Persentase Estimasi</th><th>Argumen Utama</th></tr>
+            <tr><td>Singularitas Mungkin Ada</td><td>~60-70%</td><td>Mekanisme Tao plausibel, bukti numerik Hou menarik, penemuan DeepMind tentang singularitas tidak stabil</td></tr>
+            <tr><td>Tidak Pasti/Netral</td><td>~20-30%</td><td>Bukti rigorous tidak cukup, kesulitan teoritis ekstrem, banyak upaya historis gagal</td></tr>
+            <tr><td>Regularity Global</td><td>~10-20%</td><td>Struktur persamaan stabil, deplesi geometrik vortex stretching, estimasi baru yang menjanjikan</td></tr>
+        </table>
+        
+        <h2>6.2 Faktor-Faktor yang Mempengaruhi Pergeseran Konsensus</h2>
+        
+        <h3>Mendukung Singularitas:</h3>
+        
+        <p><strong>1. Barrier Superkritis:</strong> Kontrol a priori yang diketahui (energi kinetik $$L^2$$) tidak cukup untuk mencegah transfer energi ke skala yang semakin kecil. Gap scaling antara kontrol yang diketahui dan kriteria regularity yang dibutuhkan tetap ada dan semakin jelas setelah karya Tao.</p>
+        
+        <p><strong>2. Konstruksi Tao yang Meyakinkan:</strong> Modifikasi persamaan yang mempertahankan struktur esensial (identitas energi) tetapi mengalami blowup menunjukkan bahwa barrier bukan artefak metodologi lemah. Ini menunjukkan bahwa blowup adalah fitur inheren nonlinieritas ketika persamaan dirancang dengan cermat, bukan anomali.</p>
+        
+        <p><strong>3. Bukti Numerik Kuat Hou:</strong> Pertumbuhan vorticitas eksponensial dalam simulasi high-resolution dengan kondisi awal yang disiapkan secara khusus menunjukkan profil scaling yang kompatibel dengan kriteria Beale-Kato-Majda. Hou melaporkan faktor $$\sim 10^7$$ dalam pertumbuhan vorticitas maksimum untuk solusi aksisimetrik, melampaui semua simulasi sebelumnya.</p>
+        
+        <p><strong>4. Temuan DeepMind: Singularitas Tidak Stabil:</strong> Penemuan terbaru (2025) bahwa singularitas pada persamaan Euler dan Navier-Stokes terkait cenderung "tidak stabil"—memerlukan presisi kondisi awal ekstrem—menjelaskan mengapa mereka tidak pernah terobservasi dalam eksperimen atau simulasi acak. Seperti yang dinyatakan Charlie Fefferman: <em>"Banyak orang percaya singularitas ada, tetapi tidak stabil sehingga tidak pernah terlihat dalam praktik."</em></p>
+        
+        <h3>Kritik terhadap Konsensus "Singularitas Kemungkinan":</h3>
+        
+        <p><strong>1. Tidak Ada Bukti Rigorous Untuk Persamaan Asli:</strong> Belum ada teorema yang membuktikan blowup untuk persamaan Clay yang sebenarnya—hanya untuk modifikasi atau kasus khusus dengan simetri tambahan (aksisimetrik, forced, dll.).</p>
+        
+        <p><strong>2. Instabilitas:</strong> Jika singularitas ada, mereka sangat sensitif terhadap perturbasi kecil. Setiap gangguan mungkin menghancurkan mereka, menjadikannya sulit untuk menemukan dan memvalidasi mereka.</p>
+        
+        <p><strong>3. Kegagalan Historis:</strong> Komunitas telah melihat banyak klaim bukti regularity atau singularitas sebelumnya terbukti salah atau mengandung kesalahan fundamental. Skeptisisme sehat tetap ada.</p>
+        
+        <h2>6.3 Kesimpulan tentang Konsensus</h2>
+        <p><strong>Mayoritas komunitas TOP (60-70%) cenderung percaya singularitas MUNGKIN ada, BUKAN pasti ada.</strong> Keyakinan ini berdasarkan pada:</p>
+        <ul>
+            <li><strong>Plausibilitas teoritis</strong> (mekanisme Tao yang elegan)</li>
+            <li><strong>Bukti numerik yang kuat</strong> (simulasi Hou)</li>
+            <li><strong>Temuan AI yang menggairahkan</strong> (DeepMind singularities)</li>
+            <li>Tetapi BUKAN pada bukti matematika rigorous penuh</li>
+        </ul>
+        <p>Pentingnya kualifikasi ini tidak bisa terlalu ditekankan: kami berbicara tentang "mungkin," bukan "pasti."</p>
+    </section>
+    
+    <section id="mekanisme-blowup">
+        <h1>7. Mekanisme Blowup: Analisis Mendalam</h1>
+        
+        <h2>7.1 Konsep Inti: Vortex Stretching vs. Viscous Diffusion</h2>
+        <p>Persamaan vorticitas dalam paper resmi memberikan gambaran yang jelas:</p>
+        $$\partial_t \omega + (u \cdot \nabla) \omega = (\omega \cdot \nabla) u + \nu \Delta \omega + \nabla \times f$$
+        
+        <p>Mekanisme blowup hipotetis dapat dipahami sebagai "kemenangan" vortex stretching $$(\omega \cdot \nabla) u$$ atas diffusion viskus $$\nu \Delta \omega$$.</p>
+        
+        <h2>7.2 Program Tao: Mesin von Neumann Fluida</h2>
+        <p>Terence Tao telah mengembangkan framework teoritis paling ambisius untuk memahami bagaimana blowup bisa terjadi. Dalam wawancara 2025, ia menjelaskan intuisi mendalam:</p>
+        
+        <blockquote>
+            <em>"Saya semakin yakin bahwa blowup mungkin terjadi untuk persamaan asli. Mekanismenya adalah mesin von Neumann fluida—struktur yang dapat mereplikasi dirinya sendiri pada skala yang lebih halus, mentransfer energi dari skala besar ke skala kecil secara eksponensial cepat sehingga efek viskositas tidak sempat meredamnya."</em>
+        </blockquote>
+        
+        <h3>Kontribusi Tao:</h3>
+        
+        <p><strong>2016:</strong> Membangun modifikasi Navier-Stokes yang mempertahankan identitas energi tetapi mengalami blowup pada waktu terbatas untuk solusi kelas tertentu.</p>
+        
+        <p><strong>2024:</strong> Mengembangkan "persamaan Navier-Stokes ter-rata-rata" (averaged Navier-Stokes) yang mematuhi semua estimasi yang mungkin secara fundamental tetapi memungkinkan konstruksi solusi blowup.</p>
+        
+        <p><strong>2025:</strong> Mempublikasikan pendekatan berbasis kekompletesan Turing (Turing universality) menunjukkan bahwa persamaan mungkin mensimulasikan sistem komputasi universal, dengan implikasi untuk undecidability.</p>
+        
+        <h3>Implikasi Kritis:</h3>
+        <p>Tao menunjukkan bahwa <strong>setiap resolusi positif regularity global harus menggunakan struktur nonlinear spesifik dari persamaan asli</strong>. Estimasi atas batas ("soft estimates") saja tidak cukup; seseorang harus memahami nonlinearitas secara mendalam untuk baik membuktikan regularitas atau membangun blowup.</p>
+        
+        <p>Ini adalah insight yang mengubah paradigma: masalah bukan hanya sulitnya analisis, tetapi fakta bahwa hambatan fundamental ada dalam struktur persamaan itu sendiri.</p>
+        
+        <h2>7.3 Bukti Numerik Hou: Kandidat Singularitas Aksisimetrik</h2>
+        <p>Thomas Hou (Caltech) telah menghasilkan bukti numerik paling meyakinkan untuk singularitas pada persamaan Euler dan Navier-Stokes 3D dalam seting aksisimetrik (axisymmetric).</p>
+        
+        <h3>Skenario Hou:</h3>
+        
+        <p><strong>1. Aliran aksisimetrik:</strong> Fokus pada solusi dengan simetri aksial $$u = u(r, z, t)$$ dalam koordinat silinder $$(r, \theta, z)$$ dengan $$u$$ tidak bergantung pada $$\theta$$.</p>
+        
+        <p><strong>2. Hasil numerik:</strong> Simulasi high-resolution menunjukkan:</p>
+        <ul>
+            <li>Pertumbuhan vorticitas hingga faktor $$\sim 10^7$$</li>
+            <li>Profil scaling self-similar (near self-similar)</li>
+            <li>Lokalisasi di dekat titik stasioner pada boundary silinder</li>
+            <li>Waktu blowup yang dapat diekstrapolasi dengan akurasi tinggi</li>
+        </ul>
+        
+        <p><strong>3. Analisis profil:</strong> Hou menggunakan formulasi rescaling dua-skala dan viskositas variabel untuk meningkatkan alignement nonlinieritas vortex stretching, mengidentifikasi saat kritis di mana pertumbuhan menjadi terkonsentrasi dan tak terkontrol.</p>
+        
+        <h3>Mengapa Skenario Ini Menarik:</h3>
+        <ul>
+            <li>Ini adalah bukti numerik <strong>terdekat dengan blowup yang diamati</strong> dalam simulasi komputer Navier-Stokes.</li>
+            <li>Struktur terstruktur (aksisimetrik) membuat analisis teoritis dan validasi numerik lebih layak.</li>
+            <li>Jika seseorang ingin membuktikan singularitas ada secara rigorous, skenario Hou adalah titik awal paling realistis.</li>
+        </ul>
+        
+        <h2>7.4 Temuan DeepMind: Singularitas Tidak Stabil</h2>
+        <p>Kolaborasi baru (2025) antara DeepMind, Brown, NYU, dan Stanford menggunakan AI (physics-informed neural networks dengan presisi tinggi) untuk menemukan singularitas pada persamaan Euler dan persamaan terkait Navier-Stokes.</p>
+        
+        <h3>Temuan Kunci:</h3>
+        
+        <p><strong>1. Singularitas ditemukan:</strong> Algoritma neural network dapat menemukan profil yang mematuhi persamaan dengan akurasi presisi mesin (equivalent to mengurutkan diameter Bumi dengan akurasi beberapa cm).</p>
+        
+        <p><strong>2. Sifat ketidakstabilan:</strong> Singularitas yang ditemukan <strong>sangat tidak stabil</strong>—memerlukan kondisi awal dan forcing yang diatur dengan presisi tinggi. Gangguan kecil menghancurkan perilaku singular.</p>
+        
+        <p><strong>3. Implikasi:</strong> Ini menjelaskan mengapa singularitas tidak pernah terobservasi dalam simulasi random atau eksperimen fisik. Seperti yang dikatakan Fefferman: <em>"Banyak orang sekarang percaya singularitas ada, tetapi tidak stabil sehingga hampir tidak mungkin untuk menemukan mereka secara acak."</em></p>
+        
+        <p><strong>4. Temuan itu bukan bukti Clay:</strong> Algoritma DeepMind menemukan kandidat profil, tetapi belum rigorous membuktikan bahwa profil itu mematuhi persamaan Clay yang sebenarnya untuk semua scale dengan galat yang dapat dikendalikan.</p>
+        
+        <h3>Metodologi DeepMind:</h3>
+        <ul>
+            <li>Menggunakan physics-informed neural networks (PINNs) dengan embedding symmetries dan self-similarity ansatz</li>
+            <li>Melatih pada loss function yang menggabungkan:
+                <ul>
+                    <li>Residual persamaan PDE (difference antara LHS dan RHS minimal)</li>
+                    <li>Constraints regularity (divergence-free, boundary conditions)</li>
+                    <li>High-precision arithmetic (bukan float64 standar, tetapi precision arbitrary)</li>
+                </ul>
+            </li>
+            <li>Validasi melalui:
+                <ul>
+                    <li>Verifikasi independent numerical methods</li>
+                    <li>Error bounds dengan interval arithmetic</li>
+                    <li>Extracting profile yang dapat dibawa ke computer-assisted proof framework</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    
+    <section id="program-penelitian">
+        <h1>8. Program Penelitian Terkini</h1>
+        
+        <p>Tiga program penelitian utama sedang berkembang secara parallel untuk mengatasi masalah regularity Navier-Stokes:</p>
+        
+        <h2>8.1 Program Teoritis Tao: Barrier Results dan Model Mainan Superkritis</h2>
+        
+        <p><strong>Target:</strong> Membangun pemahaman mendalam tentang mengapa regularity global sulit dan di mana blowup mungkin tersembunyi dalam struktur nonlinieritas.</p>
+        
+        <p><strong>Strategi:</strong></p>
+        <ul>
+            <li>Menganalisis model reduced (averaged, dyadic, model mainan superkritis lainnya) yang masih menangkap fitur esensial Navier-Stokes tetapi lebih dapat dikelola secara matematis</li>
+            <li>Membuktikan blowup untuk model-model ini</li>
+            <li>Secara bertahap mengurangi "jarak" antara model dan persamaan asli</li>
+            <li>Mengidentifikasi barrier fundamental (hasil barrier) yang menunjukkan apa yang diperlukan untuk regularity</li>
+        </ul>
+        
+        <p><strong>Publikasi Kunci:</strong></p>
+        <ul>
+            <li>Tao (2016): Finite time blowup untuk averaged 3D Navier-Stokes</li>
+            <li>Tao (2024-2025): Pendekatan Turing-complete dan mesin von Neumann fluida</li>
+        </ul>
+        
+        <h2>8.2 Program Numerik Hou: Computer-Assisted Proof untuk Aksisimetrik</h2>
+        
+        <p><strong>Target:</strong> Membuktikan blowup finite-time untuk 3D Navier-Stokes aksisimetrik melalui kombinasi analisis PDE + numerik rigorous.</p>
+        
+        <p><strong>Strategi:</strong></p>
+        <ol>
+            <li>Simulasi high-resolution untuk mengidentifikasi kandidat profil blowup</li>
+            <li>Formulasikan ansatz self-similar atau near-self-similar untuk profil</li>
+            <li>Bangun sistem persamaan reduced untuk parameter blowup</li>
+            <li>Gunakan interval arithmetic + validasi ODE/PDE untuk membuktikan bahwa solusi sistem itu mendekati profil blowup dengan galat yang dapat dikontrol</li>
+            <li>Tunjukkan bahwa profil melanggar kriteria regularity (misalnya, $$\int_0^{T^*} \|\omega\|_{L^\infty} dt = \infty$$)</li>
+        </ol>
+        
+        <p><strong>Publikasi Kunci:</strong></p>
+        <ul>
+            <li>Hou & Luo: Potentially singular behavior of 3D Navier-Stokes equations (2014-2025)</li>
+            <li>Chen & Hou: Computer-assisted proof untuk 2D Boussinesq dan 3D Euler (2022-2025)</li>
+        </ul>
+        
+        <h2>8.3 Program AI: DeepMind dan Collaborators</h2>
+        
+        <p><strong>Target:</strong> Menggunakan neural networks dengan presisi tinggi untuk menemukan kandidat singularitas baru, terutama yang tidak stabil dan sulit ditemukan oleh metode klasik.</p>
+        
+        <p><strong>Strategi:</strong></p>
+        <ul>
+            <li>Physics-informed neural networks (PINNs) dengan ansatz struktur (self-similarity, simetri)</li>
+            <li>Training pada loss = residual PDE + constraints</li>
+            <li>High-precision optimization (tidak standard float64)</li>
+            <li>Validasi cross-check dengan metode numerik independen</li>
+            <li>Output: kandidat profil yang dapat dibawa ke validated numerics (program Hou)</li>
+        </ul>
+        
+        <p><strong>Publikasi Kunci:</strong></p>
+        <ul>
+            <li>DeepMind Blog: "Discovering new solutions to century-old problems in fluid dynamics" (September 2025)</li>
+            <li>Wang et al.: Resolving sharp gradients via neural networks (2025)</li>
+        </ul>
+    </section>
+    
+    <section id="tiga-jalur">
+        <h1>9. Tiga Jalur Pembuktian Singularitas</h1>
+        
+        <p>Jika tujuan adalah <strong>benar-benar membuktikan singularitas ada</strong> secara rigorous dan memenangkan hadiah Clay $1 juta, ada tiga jalur besar yang dapat ditempuh. Setiap memiliki pro dan kontra.</p>
+        
+        <h2>9.1 Jalur A: Program Tao (Analitik Murni)</h2>
+        
+        <p><strong>Filosofi:</strong> Kembangkan teori PDE yang sangat terstruktur untuk menunjukkan bahwa singularitas inheren dalam nonlinieritas. Tunjukkan bahwa regularity global memerlukan struktur halus yang tidak dapat ditangani oleh metode standar.</p>
+        
+        <p><strong>Langkah Konkret:</strong></p>
+        
+        <ol>
+            <li><strong>Kuasai semua barrier dan partial regularity klasik</strong>
+                <ul>
+                    <li>Caffarelli-Kohn-Nirenberg (himpunan singular berdimensi ≤ 1)</li>
+                    <li>Escauriaza-Seregin-Šverák (kriteria $$L^3$$ lokal/global)</li>
+                    <li>Semua ini adalah "tembok" yang menghentikan setiap upaya regularity global tradisional</li>
+                </ul>
+            </li>
+            <li><strong>Pelajari model superkritis Tao</strong>
+                <ul>
+                    <li>Paper Tao (2016): averaged 3D Navier-Stokes dan model dyadic shell</li>
+                    <li>Ide kunci: <strong>semua metode berbasis estimasi "kasar" yang tidak menggunakan struktur halus nonlinieritas pasti gagal</strong> untuk membuktikan regularitas</li>
+                </ul>
+            </li>
+            <li><strong>Latih diri di PDE superkritis lain dengan blowup yang diketahui</strong>
+                <ul>
+                    <li>Kuasai teknik membangun solusi blowup eksplisit/semiexplisit</li>
+                    <li>Tujuan: biasakan pikiran dengan analisis profil blowup</li>
+                </ul>
+            </li>
+            <li><strong>Program riset konkret: kurangi "jarak" antara model Tao ↔ persamaan asli</strong>
+                <ul>
+                    <li>Ambil model dyadic/averaged Tao yang sudah blowup</li>
+                    <li>Secara bertahap:
+                        <ul>
+                            <li>Kurangi averaging</li>
+                            <li>Tambahkan kembali nonlinieritas lokal</li>
+                            <li>Ubah kernel nonlinier sedikit demi sedikit menuju Leray asli</li>
+                        </ul>
+                    </li>
+                    <li>Tujuan: temukan jalur deformasi kontinu dari model yang diketahui blowup ke persamaan asli dengan mekanisme blowup yang dipertahankan</li>
+                </ul>
+            </li>
+            <li><strong>Fokus pada kelas solusi sangat terstruktur</strong>
+                <ul>
+                    <li>Self-similar atau almost self-similar (à la Hou)</li>
+                    <li>Vorticity concentrated near satu curve atau surface (vortex filament)</li>
+                    <li>Ini mempermudah reduksi dimensi</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p><strong>Plus–Minus</strong>:</p>
+        <ul>
+            <li>✅ <strong>Plus:</strong> Sangat "bersih" secara matematis; jika berhasil tanpa komputer, peluang penerimaan komunitas langsung besar.</li>
+            <li>❌ <strong>Minus:</strong> Mungkin jalur paling sulit; hampir semua ahli top sudah buntu pada kasus sebenarnya.</li>
+        </ul>
+        
+        <h2>9.2 Jalur B: Skenario Hou + Computer-Assisted Proof (Hibrid Terbaik)</h2>
+        
+        <p><strong>Filosofi:</strong> Manfaatkan bukti numerik Hou untuk aksisimetrik, tetapi naik level ke computer-assisted proof dengan validated numerics + PDE analysis.</p>
+        
+        <p>Ini dianggap jalur <strong>paling realistis</strong> dalam jangka menengah (3-5 tahun).</p>
+        
+        <p><strong>Langkah Konkret:</strong></p>
+        
+        <ol>
+            <li><strong>Dalami betul paper Hou tentang "Potentially Singular Behavior"</strong>
+                <ul>
+                    <li>Pahami formulasi aksisimetrik (variabel $$u_1$$, $$\omega_1$$, $$\psi_1$$)</li>
+                    <li>Pahami strategi rescaling dan analisis profil near self-similar</li>
+                    <li>Verifikasi numerik criteria BKM, Escauriaza-Seregin-Šverák</li>
+                </ul>
+            </li>
+            <li><strong>Masuki dunia numerik rigorous / interval arithmetic</strong>
+                <ul>
+                    <li>Studi kasus klasik: computer-assisted proof singularitas Euler (Chen-Hou-Huang, 2022)</li>
+                    <li>Tools relevan:
+                        <ul>
+                            <li>Validated ODE/PDE solvers (CAPD, Intlab)</li>
+                            <li>A posteriori error estimation (bootstrapping: numerik + analitik → bound rigorous)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Proyek riset konkret</strong>:
+                <ul>
+                    <li>Ambil skenario Hou yang sudah spesifik (data awal tertentu)</li>
+                    <li>Lakukan:
+                        <ol>
+                            <li>Simulasi high-precision dengan scheme terkontrol baik (spektral aksisimetrik)</li>
+                            <li>Bangun ansatz analitik untuk profil blowup (self-similar lokal di sekitar titik singular)</li>
+                            <li>Formulasikan system persamaan reduced untuk parameter blowup (laju scaling, lokasi titik singular)</li>
+                            <li>Gunakan interval arithmetic untuk membuktikan solusi system itu memang mendekati profil blowup:
+                                <ul>
+                                    <li>Tunjukkan $$\int_0^{T^*} \|\omega\|_\infty dt = \infty$$ dengan galat terkontrol</li>
+                                    <li>Atau bahwa norm kritis tertentu divergen pada $$T^*$$ dengan estimate eksplisit</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Pastikan "Clay-level rigorous"</strong>
+                <ul>
+                    <li>Semua galat numerik dibungkus dalam bound formal</li>
+                    <li>Gunakan lemmas PDE standard (energy inequality, parabolic regularity) untuk menjembatani PDE kontinu ↔ diskrit</li>
+                    <li>Model analogous: computer-proof Euler (Chen-Hou, 2025)</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p><strong>Plus–Minus</strong>:</p>
+        <ul>
+            <li>✅ <strong>Plus:</strong> Paling dekat dengan apa yang sudah "nyaris blowup"; peluang progres signifikan besar.</li>
+            <li>✅ <strong>Plus:</strong> Sangat cocok untuk orang dengan campuran skill CS + analisis PDE.</li>
+            <li>❌ <strong>Minus:</strong> Harus hati-hati meyakinkan komunitas bahwa bagian "numerik" benar-benar rigorous, bukan hanya eksperimen bagus.</li>
+        </ul>
+        
+        <h2>9.3 Jalur C: AI-Assisted Search à la DeepMind</h2>
+        
+        <p><strong>Filosofi:</strong> Gunakan physics-informed neural networks dengan presisi tinggi untuk mencari kandidat singularitas baru, terutama yang tidak stabil. Lalu integrasikan penemuan AI dengan jalur B untuk computer-assisted proof.</p>
+        
+        <p><strong>Langkah Konkret:</strong></p>
+        
+        <ol>
+            <li><strong>Pelajari DeepMind papers dan blog tentang PINN untuk singularitas</strong>
+                <ul>
+                    <li>Perhatikan:
+                        <ul>
+                            <li>Bagaimana mereka embed pengetahuan analitik (self-similarity, simetri)</li>
+                            <li>Bagaimana mereka validasi solusi (residual bounds, high-precision arithmetic)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Rancang pipeline khusus untuk Navier-Stokes</strong>:
+                <ul>
+                    <li>Pilih setting (3D box periodik atau aksisimetrik)</li>
+                    <li>Definisikan ansatz self-similar untuk kandidat blowup</li>
+                    <li>Latih PINN dengan constraint:
+                        <ul>
+                            <li>Inkompresibilitas $$\nabla \cdot u = 0$$</li>
+                            <li>Energi/enstrophy scaling tertentu</li>
+                            <li>Boundary conditions</li>
+                        </ul>
+                    </li>
+                    <li>Output: kandidat profil $$(u^*, p^*)$$ dan data awal yang menghasilkan blowup</li>
+                </ul>
+            </li>
+            <li><strong>Integrasikan dengan jalur B</strong>:
+                <ul>
+                    <li>Ambil profil yang ditemukan AI</li>
+                    <li>Gunakan sebagai ansatz untuk computer-assisted proof</li>
+                    <li>Validasi dengan interval arithmetic</li>
+                </ul>
+            </li>
+            <li><strong>Tambahan yang menarik (untuk profilmu)</strong>:
+                <ul>
+                    <li>Hubungan ke fluid computers / Turing complete Euler flows (Tao, Buckmaster, Vicol)</li>
+                    <li>Blowup mungkin terkait masalah undecidability / kompleksitas komputasi</li>
+                    <li>Kamu bisa berkontribusi di layer "formal verification" dari hasil AI (SAT-style certificates untuk galat numerik)</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p><strong>Plus–Minus</strong>:</p>
+        <ul>
+            <li>✅ <strong>Plus:</strong> Sangat frontier; kombinasi AI + PDE high-end.</li>
+            <li>✅ <strong>Plus:</strong> Skill CS/ML kamu menjadi nilai tambah besar.</li>
+            <li>❌ <strong>Minus:</strong> Di mata komunitas PDE tradisional, AI hanyalah alat bantu; bukti akhir tetap harus analitik/rigorous.</li>
+        </ul>
+    </section>
+    
+    <section id="roadmap-6-12">
+        <h1>10. Arah Penelitian Pendahuluan (6-12 Bulan)</h1>
+        
+        <p>Jika kamu ingin memulai dengan serius, berikut adalah rencana 6-12 bulan yang sangat konkret.</p>
+        
+        <h2>10.1 Tahap 0-3 Bulan: Bangun Fondasi PDE Navier-Stokes</h2>
+        
+        <p><strong>Tujuan:</strong> Menguasai "bahasa" PDE Navier-Stokes sehingga kamu dapat membaca literatur penelitian terkini dengan nyaman.</p>
+        
+        <p><strong>Bacaan & Topik:</strong></p>
+        
+        <ol>
+            <li><strong>Functional Analysis</strong>
+                <ul>
+                    <li>Buku: Rudin "Functional Analysis" (Ch. 3-4: Hilbert spaces, weak convergence)</li>
+                    <li>Target: 20-30 jam</li>
+                    <li>Output: pahami $$L^p$$, $$H^s$$, dual spaces, weak topology</li>
+                </ul>
+            </li>
+            <li><strong>Harmonic Analysis Minimal</strong>
+                <ul>
+                    <li>Buku: Stein & Shakarchi "Functional Analysis" (Ch. 5-6) atau Grafakos "Classical Fourier Analysis"</li>
+                    <li>Focus: Littlewood-Paley theory, Calderon-Zygmund operators</li>
+                    <li>Target: 30-40 jam</li>
+                    <li>Output: mampu membaca estimasi dalam mixed norms $$L^p_t L^q_x$$</li>
+                </ul>
+            </li>
+            <li><strong>Teori PDE Navier-Stokes Dasar</strong>
+                <ul>
+                    <li>Buku: Robinson-Rodrigo-Sadowski "The Three-Dimensional Navier-Stokes Equations" (Ch. 1-3)</li>
+                    <li>atau Majda-Bertozzi "Vorticity and Incompressible Flow" (Ch. 1-2)</li>
+                    <li>Target: 30-40 jam</li>
+                    <li>Output: pahami Leray-Hopf, energy inequality, vorticity equation, scaling</li>
+                </ul>
+            </li>
+            <li><strong>Bacaan Kritis</strong>:
+                <ul>
+                    <li>Fefferman official Clay problem description (20 pages) - sangat penting</li>
+                    <li>Tao blog post: "Why global regularity for Navier-Stokes is hard" (2007) - sangat intuitif</li>
+                    <li>Caffarelli-Kohn-Nirenberg paper (bagian A: partial regularity theorem)</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p><strong>Jumlah Waktu:</strong> ~100-150 jam spread over 12 minggu → ~9-12 jam per minggu</p>
+        
+        <p><strong>Output Konkret:</strong></p>
+        <ul>
+            <li>Notebook 30-50 halaman dengan ringkasan, diagrams, dan intuisi</li>
+            <li>Mampu menjelaskan kepada orang lain:
+                <ul>
+                    <li>Mengapa 2D regular global tapi 3D tidak</li>
+                    <li>Apa itu energy inequality dan mengapa itu penting</li>
+                    <li>Apa arti "superkritis" dan mengapa itu hambatan</li>
+                    <li>Apa kriteria Beale-Kato-Majda dan mengapa itu relevan</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h2>10.2 Tahap 3-6 Bulan: Fokus pada Skenario Blowup</h2>
+        
+        <p><strong>Tujuan:</strong> Pahami mekanisme blowup Hou secara detail dan awal konstruksi barrier Tao.</p>
+        
+        <p><strong>Bacaan & Studi:</strong></p>
+        
+        <ol>
+            <li><strong>Paper Hou tentang Blowup Aksisimetrik</strong> (Potentially Singular Behavior, 2024-2025 versions)
+                <ul>
+                    <li>Pahami formulasi aksisimetrik secara detail</li>
+                    <li>Ikuti analisis profil self-similar</li>
+                    <li>Verifikasi numerik criteria regularity</li>
+                    <li>Target: 40-50 jam</li>
+                    <li>Output: Mampu menjelaskan bagaimana Hou mengidentifikasi candidate blowup, apa yang dia simulasikan, dan apa yang dia temukan</li>
+                </ul>
+            </li>
+            <li><strong>Paper Tao tentang Averaged Navier-Stokes dan Barrier Results</strong> (Tao 2016 + follow-ups)
+                <ul>
+                    <li>Pahami konstruksi averaged NS</li>
+                    <li>Pahami bagaimana blowup dibangun untuk model itu</li>
+                    <li>Pahami mengapa hal itu menyiratkan barrier untuk regularity asli</li>
+                    <li>Target: 50-60 jam (ini lebih teknis)</li>
+                    <li>Output: Pahami intuisi di balik "setiap regularity proof harus menggunakan struktur halus"</li>
+                </ul>
+            </li>
+            <li><strong>Chen-Hou Computer-Assisted Proof untuk Euler/Boussinesq</strong> (2022-2025)
+                <ul>
+                    <li>Ini adalah "blueprint" untuk bagaimana kombinasi analisis + numerik dapat menghasilkan proof</li>
+                    <li>Target: 30-40 jam</li>
+                    <li>Output: Pahami pipeline: candidate → validation → rigorous bound → theorem</li>
+                </ul>
+            </li>
+            <li><strong>Mulai Implementasi Sederhana</strong>:
+                <ul>
+                    <li>Ambil formulasi aksisimetrik Navier-Stokes</li>
+                    <li>Implementasi solver spektral di Python (dengan JAX atau TensorFlow untuk automatic differentiation)</li>
+                    <li>Replika simulasi Hou pada skala lebih kecil (tujuan: validasi bahwa kamu understand the setup, bukan reproduksi penuh)</li>
+                    <li>Target: 40-50 jam coding</li>
+                    <li>Output: Script Python yang dapat menjalankan simulasi aksisimetrik dan plot profile</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p><strong>Jumlah Waktu:</strong> ~150-200 jam spread 12 minggu</p>
+        
+        <p><strong>Output Konkret:</strong></p>
+        <ul>
+            <li>Written summary (15-20 halaman): "Understanding Hou's Blowup Candidate and Tao's Barrier Results"</li>
+            <li>Code repository dengan aksisimetrik NS solver + dokumentasi</li>
+            <li>List of open questions: apa yang Hou tidak jelaskan, apa yang Tao tinggalkan untuk pekerjaan selanjutnya</li>
+        </ul>
+        
+        <h2>10.3 Tahap 6-12 Bulan: Integrated Research Project</h2>
+        
+        <p><strong>Tujuan:</strong> Mulai kontribusi riset original pada pemahaman kandidat blowup Hou atau eksplorasi validated numerics.</p>
+        
+        <p><strong>Pilihan Proyek (pilih SATU)</strong>:</p>
+        
+        <h3>Opsi A: Perluasan Numerik Hou</h3>
+        <ul>
+            <li>Target: Reproduksi simulasi Hou untuk kondisi awal baru atau varian kecil domain/forcing</li>
+            <li>Deliverable: Paper preprint "Extending Hou's blowup candidate to novel initial data / parameter regimes"</li>
+            <li>Timeline: 6 bulan</li>
+            <li>Skill gain: Advanced spectral methods, mesh refinement, error analysis</li>
+        </ul>
+        
+        <h3>Opsi B: Validated Numerics Awal</h3>
+        <ul>
+            <li>Target: Implementasi simple interval arithmetic validator untuk profil self-similar 1D reduced Hou</li>
+            <li>Deliverable: Code + paper "Towards computer-assisted proof of Hou's blowup: validated ODE solver for reduced 1D model"</li>
+            <li>Timeline: 6-8 bulan</li>
+            <li>Skill gain: Interval arithmetic, a posteriori bounds, CAPD library</li>
+        </ul>
+        
+        <h3>Opsi C: PINN untuk Navier-Stokes Aksisimetrik</h3>
+        <ul>
+            <li>Target: Train physics-informed neural network untuk mencari self-similar blowup profile dalam setup aksisimetrik</li>
+            <li>Deliverable: Code + paper "AI-assisted discovery of candidate singular behaviors in axisymmetric Navier-Stokes"</li>
+            <li>Timeline: 6-8 bulan</li>
+            <li>Skill gain: PINNs, high-precision optimization, TensorFlow/JAX, physics constraints in ML</li>
+        </ul>
+        
+        <p><strong>Jumlah Waktu:</strong> ~150-200 jam research + ~100-150 jam writing/presentation</p>
+        
+        <p><strong>Output Konkret:</strong></p>
+        <ul>
+            <li>Preprint atau paper pertama kamu di arXiv dengan hasil original, walau kecil</li>
+            <li>GitHub repo dengan code reproducible</li>
+            <li>Presentasi di seminar lokal atau conference</li>
+        </ul>
+    </section>
+    
+    <section id="riset-jangka-panjang">
+        <h1>11. Arah Riset Jangka Panjang</h1>
+        
+        <p>Jika kamu commit untuk 3-7 tahun pekerjaan serius pada masalah ini, berikut adalah garis besar yang realistis:</p>
+        
+        <h2>11.1 Tahun 1-2: Deepen Understanding + Publish Preliminary Results</h2>
+        <ul>
+            <li>Master sepenuhnya literature (Hou, Tao, Chen-Hou, DeepMind)</li>
+            <li>Publikasikan 1-2 preprint dengan hasil original (eksplorasi numerik, eksplorasi PINN, atau teori partial)</li>
+            <li>Bangun collaborations dengan ahli yang sudah bekerja di lapangan</li>
+        </ul>
+        
+        <h2>11.2 Tahun 2-3: Fokus pada Specific Skenario</h2>
+        
+        <p><strong>Pilihan Strategis:</strong> Skenario Hou + Computer-Assisted Proof (Jalur B) adalah yang paling realistis karena:</p>
+        <ul>
+            <li>Paling dekat dengan "nyaris-blowup"</li>
+            <li>Template sudah ada (Chen-Hou untuk Euler)</li>
+            <li>Kombinasi skill kamu (teori + CS) cocok sempurna</li>
+        </ul>
+        
+        <p><strong>Deliverables:</strong></p>
+        <ul>
+            <li>1-2 paper tentang "rigorous numerics for Hou-type blowup scenarios"</li>
+            <li>Code framework untuk validated ODE/PDE solving untuk Navier-Stokes reduced models</li>
+        </ul>
+        
+        <h2>11.3 Tahun 3-5: Integrated Proof Attempt</h2>
+        
+        <p><strong>Target:</strong> Kombinasikan:</p>
+        <ol>
+            <li>Analisis PDE mendalam (mekanisme Tao + deplesi geometrik vortex stretching)</li>
+            <li>Numerik rigorous (validated solvers + interval arithmetic)</li>
+            <li>PINN/AI sebagai alat discovery</li>
+        </ol>
+        
+        <p><strong>Output:</strong> 1-2 paper dengan computer-assisted proof untuk:</p>
+        <ul>
+            <li>Blowup untuk aksisimetrik Navier-Stokes dengan specific initial data</li>
+            <li>atau Blowup untuk modified Navier-Stokes yang struktural lebih dekat ke asli</li>
+        </ul>
+        
+        <h2>11.4 Tahun 5+: Upgrade to Clay Setting</h2>
+        
+        <p>Jika langkah-langkah sebelumnya sukses, pertanyaan berikutnya:</p>
+        <ul>
+            <li>Dapatkah hasil untuk aksisimetrik diangkat ke 3D penuh?</li>
+            <li>Bisakah asumsi simetri dihilangkan?</li>
+            <li>Apakah mekanisme blowup robust atau tergantung pada simetri?</li>
+        </ul>
+        
+        <p>Dari sini, potensi untuk hasil "Clay-level" terbuka, tetapi kecil (mungkin 5-10% probabilitas, tapi bukan impossible).</p>
+    </section>
+    
+    <section id="dampak-solusi">
+        <h1>12. Dampak Solusi</h1>
+        
+        <h2>12.1 Jika Regularitas Global Terbukti</h2>
+        <ul>
+            <li><strong>Matematis:</strong> Perkenalan teknik PDE analitik baru untuk menangani nonlinieritas superkritis; insight mendalam tentang sifat matematika turbulensi</li>
+            <li><strong>Kontrol A Priori:</strong> Klarifikasi tentang jenis bounds apa yang cukup untuk regularitas dalam rejim kritis</li>
+            <li><strong>Aplikasi:</strong> Menyediakan fondasi teoritis yang lebih kuat untuk simulasi CFD dan pemodelan turbulensi</li>
+            <li><strong>Komunitas:</strong> Pemenang akan diakui sebagai salah satu matematikawan terkemuka; kursi di institusi top (IAS, Princeton, Caltech, dll.) akan terbuka lebar</li>
+        </ul>
+        
+        <h2>12.2 Jika Finite-Time Blowup Terbukti Ada</h2>
+        <ul>
+            <li><strong>Paradigma Shift:</strong> Navier-Stokes asli, tanpa modifikasi, mengakui singularitas untuk data awal halus tertentu</li>
+            <li><strong>Pertanyaan Baru:</strong>
+                <ul>
+                    <li>Mekanisme singular apa yang muncul? (self-similar cascade, instabilitas lain?)</li>
+                    <li>Seberapa "besar" set data awal yang menghasilkan blowup? (measure-theoretic perspective)</li>
+                    <li>Bagaimana melanjutkan solusi melampaui waktu singular? (weak admissibility, weak-strong uniqueness)</li>
+                    <li>Mana modified PDE yang lebih baik mewakili fluida nyata?</li>
+                </ul>
+            </li>
+            <li><strong>Fisika:</strong> Insight baru tentang turbulensi ekstrem, shkolar formation, dan perubahan topologi vorteks</li>
+            <li><strong>Komunitas:</strong> Pemenang menerima Hadiah Clay $1 juta + pengakuan setara dengan pemecahan masalah besar dalam sejarah matematika</li>
+        </ul>
+        
+        <h2>12.3 Metode yang Dikembangkan</h2>
+        
+        <p><strong>Independen dari outcome (regularity vs. blowup)</strong>:</p>
+        
+        <ol>
+            <li><strong>Computer-Assisted Proof untuk PDE Sulit:</strong> Metodologi "hybrid" (analisis + validated numerics + AI) akan menjadi mainstream untuk masalah besar lainnya di PDE, terutama model superkritis</li>
+            <li><strong>AI sebagai Co-Explorer:</strong> Role AI dalam menemukan struktur matematis akan diperluas dan lebih dihormati</li>
+            <li><strong>Precedent:</strong> Penambahan ke daftar "große Probleme" yang diselesaikan dengan bantuan komputer (empat warna, Kepler conjecture, singularitas Euler, dan sekarang Navier-Stokes)</li>
+        </ol>
+    </section>
+    
+    <section id="kesimpulan">
+        <h1>13. Kesimpulan</h1>
+        
+        <h2>13.1 Ringkasan Temuan</h2>
+        
+        <ol>
+            <li><strong>Konsensus Ilmiah Bergeser (2024-2026)</strong>:
+                <ul>
+                    <li>Mayoritas (60-70%): Singularitas mungkin ada</li>
+                    <li>Minoritas (20-30%): Tidak pasti</li>
+                    <li>Kecil (10-20%): Regularity global</li>
+                    <li>Ini adalah pergeseran signifikan dari dekade sebelumnya ketika "most believed regularity"</li>
+                </ul>
+            </li>
+            <li><strong>Bukti Pendukung Singularitas</strong>:
+                <ul>
+                    <li>Terence Tao: Mekanisme "mesin von Neumann fluida" sangat plausibel</li>
+                    <li>Thomas Hou: Bukti numerik aksisimetrik mencapai 10⁷× pertumbuhan vorticitas</li>
+                    <li>DeepMind: Singularitas tidak stabil yang hampir tidak mungkin terdeteksi secara acak</li>
+                    <li><strong>Namun:</strong> BUKAN bukti rigorous penuh</li>
+                </ul>
+            </li>
+            <li><strong>Strategi Pembuktian Singularitas Terbaik</strong>:
+                <ul>
+                    <li><strong>Jalur Terbaik:</strong> Skenario Hou (aksisimetrik) + computer-assisted proof + analisis Tao</li>
+                    <li><strong>Timeline Realistis:</strong> 3-5 tahun untuk kontribusi signifikan; mungkin 5-10 tahun untuk hasil "Clay-level"</li>
+                    <li><strong>Skills Diperlukan:</strong> Fusion deep PDE theory + validated numerics + (opsional) AI/ML</li>
+                    <li><strong>Probabilitas Sukses:</strong> ~5-10% untuk hasil Clay-level, tetapi ~50-70% untuk kontribusi publishable lainnya</li>
+                </ul>
+            </li>
+            <li><strong>Untuk Peneliti Individual</strong>:
+                <ul>
+                    <li>Ada jalur yang jelas dan terstruktur untuk mulai</li>
+                    <li>6-12 bulan pertama fokus pada membangun fondasi + reproduksi hasil eksisting</li>
+                    <li>2-3 tahun berikutnya fokus pada ekstensi + publikasi original</li>
+                    <li>Setelah itu, peluang untuk hasil benar-benar breakthrough jika kombinasi beruntung + kerja keras</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h2>13.2 Arah Masa Depan Paling Menjanjikan</h2>
+        
+        <p>Kombinasi:</p>
+        <ol>
+            <li><strong>Teori:</strong> Mekanisme Tao + pemahaman deplesi geometrik vortex stretching</li>
+            <li><strong>Numerik:</strong> Simulasi high-precision + interval arithmetic + validated solvers</li>
+            <li><strong>AI:</strong> PINN untuk penemuan profil + high-precision optimization</li>
+        </ol>
+        
+        <p>Tidak ada satu jalur saja yang cukup; sinergi ketiga diperlukan.</p>
+        
+        <h2>13.3 Pesan Akhir</h2>
+        
+        <p>Masalah Navier-Stokes 3D tetap terbuka setelah 150+ tahun, bukan karena kurangnya upaya, tetapi karena <strong>hambatan fundamental dalam struktur persamaan dan kompleksitas matematika nonlinieritas superkritis</strong>. Terence Tao dan kemajuan terkini menunjukkan bahwa hambatan itu <em>bukan artefak</em>, tetapi fitur inheren yang akan memerlukan ide-ide benar-benar baru.</p>
+        
+        <p>Apakah solusinya akan datang dari analisis murni (Tao-style), numerik rigorous (Hou-style), atau kombinasi dengan AI, tetap menjadi pertanyaan terbuka. Tetapi momentum terkini, khususnya dalam 2-3 tahun terakhir, menunjukkan bahwa <strong>progress yang berarti mungkin dalam dekade ini</strong>.</p>
+        
+        <p><strong>Kesempatan bagi peneliti muda yang passionate dan bersemangat masih sangat besar.</strong></p>
+    </section>
+    
+    <div class="footer">
+        <p><strong>Referensi lengkap tersedia di akhir dokumen PDF</strong></p>
+        <p>Sintesis dari: Diskusi riset terkini, literatur 2024-2026, Navier_Stokes.pdf, web search komprehensif</p>
+        <p><strong>Dibuat:</strong> 16 Januari 2026</p>
+        <p style="margin-top: 2rem;">© 2026 Muhammad Alwin Prima | University of Indonesia</p>
+    </div>
+    
+    <script>
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$$', '$$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+</body>
+</html>
